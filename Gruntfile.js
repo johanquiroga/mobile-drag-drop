@@ -222,6 +222,11 @@ module.exports = function (grunt) {
     grunt.registerTask("build-release", ["compile", "exec:tslint", "uglify", "clean", "copy"]);
 
     // compile, lint, minify, clean copy to release folder
+    grunt.registerTask("prepare-prerelease", "Prepare a prerelease by building release files", function () {
+        grunt.task.run("build-release", "copy");
+    });
+
+    // compile, lint, minify, clean copy to release folder
     grunt.registerTask("prepare-release", "Prepare a release by building release files and bumping version", function (bump) {
         if (!bump) {
             grunt.log.error("You must specify the version bump! See https://github.com/vojtajina/grunt-bump/tree/v0.7.0");
