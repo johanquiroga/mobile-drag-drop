@@ -69,7 +69,20 @@ module.exports = function (grunt) {
                         dest: "release/"
                     }
                 ]
-            }
+            },
+            'prerelease': {
+                files: [
+                    // includes files within path
+                    {
+                        expand: true,
+                        cwd: "src",
+                        src: ["*.css", "**/*.d.ts", "*.js", "*.map"],
+                        dest: "./",
+                        filter: "isFile",
+                        flatten: false
+                    },
+                ]
+            },
         },
         // http server config for development and demo page
         connect: {
@@ -219,11 +232,11 @@ module.exports = function (grunt) {
 
     grunt.registerTask("compile", ["exec:ts", "exec:rollup", "append:umdDeclaration"]);
 
-    grunt.registerTask("build-release", ["compile", "exec:tslint", "uglify", "clean", "copy"]);
+    grunt.registerTask("build-release", ["compile", "exec:tslint", "uglify", "clean", "copy:release"]);
 
     // compile, lint, minify, clean copy to release folder
     grunt.registerTask("prepare-prerelease", "Prepare a prerelease by building release files", function () {
-        grunt.task.run("build-release", "copy");
+        grunt.task.run("build-release", "copy:prerelease");
     });
 
     // compile, lint, minify, clean copy to release folder
@@ -232,7 +245,7 @@ module.exports = function (grunt) {
             grunt.log.error("You must specify the version bump! See https://github.com/vojtajina/grunt-bump/tree/v0.7.0");
             return;
         }
-        grunt.task.run("build-release", "bump-only:" + bump, "copy");
+        grunt.task.run("build-release", "bump-only:" + bump, "copy:release");
     });
 
     // serve release files

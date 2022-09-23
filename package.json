@@ -10,7 +10,7 @@
     "build": "grunt compile",
     "release:build": "grunt build-release",
     "release:serve": "grunt serve-release",
-    "prerelease": "grunt prepare-prerelease",
+    "prepare": "grunt prepare-prerelease",
     "release:prepare:prerelease": "grunt prepare-release:prerelease",
     "release:prepare:patch": "grunt prepare-release:patch",
     "release:prepare:minor": "grunt prepare-release:minor",
